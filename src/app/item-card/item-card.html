@@ -1,9 +1,12 @@
-<div class="card"
-     [ngClass]="{ 'highlight': project.technology.includes('Angular') }"
-     [ngStyle]="{ 'border-color': project.technology.includes('React') ? 'blue' : 'gray' }">
-
+<div
+  class="card"
+  appHoverHighlight
+  [ngClass]="{ 'highlight': project.technology.includes('Angular') }"
+  [ngStyle]="{ 'border-color': project.technology.includes('React') ? 'blue' : 'gray' }"
+  (click)="onSelect()"
+>
   <h3>{{ project.name }}</h3>
-  <p class="description">{{ project.description }}</p>
+  <p class="description">{{ project.description | shorten:100 }}</p>
 
   <p><b>Tech:</b> {{ project.technology }}</p>
   <p><b>Author:</b> {{ project.author }}</p>

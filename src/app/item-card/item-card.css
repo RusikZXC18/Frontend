@@ -1,33 +1,40 @@
 .card {
-  border: 2px solid gray;
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px;
-  transition: 0.3s;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: scale(1.03);
+  background-color: #e8f0ff;
+  border-color: #4b6cb7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .card.highlight {
-  background-color: #fff8e1;
+  border-color: #dd2c00;
 }
 
-.badge {
-  background-color: #ff4081;
-  color: white;
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-size: 12px;
+.description {
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .btn-details {
   display: inline-block;
   padding: 6px 12px;
-  background-color: #2196f3;
+  background-color: #4b6cb7;
   color: white;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .btn-details:hover {
-  background-color: #1976d2;
+  background-color: #182848;
 }
