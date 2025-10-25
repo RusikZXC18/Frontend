@@ -1,15 +1,21 @@
-<h2>Список проєктів</h2>
-
-<input
-  type="text"
-  [(ngModel)]="searchTerm"
-  (input)="onSearchChange()"
-  placeholder="Пошук за назвою..." />
-
+<h2>📋 Список проєктів</h2>
+<div class="search-container">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+    placeholder="🔍 Пошук за назвою..."
+  />
+  <button (click)="navigateToAdd()">➕ Додати новий</button>
+</div>
 <div class="list">
   <app-item-card
     *ngFor="let project of projects$ | async"
     [project]="project"
     (select)="onProjectSelected($event)">
   </app-item-card>
+</div>
+
+<div class="empty" *ngIf="(projects$ | async)?.length === 0">
+  <p>😕 Проєктів не знайдено.</p>
 </div>

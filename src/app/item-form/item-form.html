@@ -1,0 +1,43 @@
+<div class="form-container">
+  <h2>Додати новий проєкт</h2>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+
+    <label>Назва:</label>
+    <input type="text" formControlName="name" placeholder="Введіть назву">
+    <div class="error" *ngIf="submitted && f['name'].errors?.['required']">
+      Назва обов’язкова.
+    </div>
+    <div class="error" *ngIf="f['name'].errors?.['minlength']">
+      Мінімум 3 символи.
+    </div>
+
+    <label>Опис:</label>
+    <textarea formControlName="description" placeholder="Короткий опис"></textarea>
+    <div class="error" *ngIf="submitted && f['description'].errors?.['required']">
+      Введіть опис.
+    </div>
+
+    <label>Деталі:</label>
+    <textarea formControlName="details" placeholder="Детальний опис"></textarea>
+    <div class="error" *ngIf="submitted && f['details'].errors?.['minlength']">
+      Мінімум 10 символів.
+    </div>
+
+    <label>Технології:</label>
+    <input type="text" formControlName="technology" placeholder="Напр. Angular, Firebase">
+    <div class="error" *ngIf="submitted && f['technology'].errors?.['required']">
+      Поле обов’язкове.
+    </div>
+
+    <label>Автор:</label>
+    <input type="text" formControlName="author" placeholder="Ім’я автора">
+    <div class="error" *ngIf="submitted && f['author'].errors?.['required']">
+      Вкажіть автора.
+    </div>
+
+    <button type="submit" [disabled]="projectForm.invalid">Зберегти</button>
+
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  </form>
+</div>

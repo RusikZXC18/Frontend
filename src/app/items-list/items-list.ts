@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Project } from '../../shared/models/project.model';
 import { ItemCardComponent } from '../item-card/item-card';
@@ -17,7 +18,10 @@ export class ItemsListComponent {
   projects$!: Observable<Project[]>;
   searchTerm = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.projects$ = this.dataService.projects$;
@@ -30,5 +34,9 @@ export class ItemsListComponent {
 
   onProjectSelected(project: Project): void {
     console.log('Вибраний проект:', project);
+
+  }
+  navigateToAdd(): void {
+    this.router.navigate(['/items/new']);
   }
 }
