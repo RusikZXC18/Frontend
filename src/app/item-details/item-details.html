@@ -1,23 +1,16 @@
-<div *ngIf="project; else notFound" class="details-container">
+<div *ngIf="isLoading" class="loading">Завантаження...</div>
+
+<div *ngIf="!isLoading && project">
   <h2>{{ project.name }}</h2>
+  <p><strong>Опис:</strong> {{ project.description }}</p>
+  <p><strong>Технології:</strong> {{ project.technology }}</p>
+  <p><strong>Автор:</strong> {{ project.author }}</p>
+  <p><strong>Дата створення:</strong> {{ project.createdAt | date }}</p>
 
-  <p class="desc"><b>Короткий опис:</b> {{ project.description }}</p>
-
-  <div class="details-text">
-    <b>Деталі:</b>
-    <p>{{ project.details }}</p>
-  </div>
-
-  <div class="info">
-    <p><b>Технології:</b> {{ project.technology }}</p>
-    <p><b>Автор:</b> {{ project.author }}</p>
-    <p><b>Дата створення:</b> {{ project.createdAt | date:'longDate' }}</p>
-  </div>
-
-  <a routerLink="/items" class="btn-back">← Назад до списку</a>
+  <button (click)="goBack()">← Назад</button>
 </div>
 
-<ng-template #notFound>
-  <p>❌ Елемент не знайдено або видалено.</p>
-  <a routerLink="/items" class="btn-back">← Назад</a>
-</ng-template>
+<div *ngIf="!isLoading && !project">
+  <p>Елемент не знайдено.</p>
+  <button (click)="goBack()">← Назад</button>
+</div>

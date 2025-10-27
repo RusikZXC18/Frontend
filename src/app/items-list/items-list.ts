@@ -33,9 +33,9 @@ export class ItemsListComponent {
   }
 
   onProjectSelected(project: Project): void {
-    console.log('Вибраний проект:', project);
-
+    this.router.navigate(['/items', project.id]);
   }
+
   navigateToAdd(): void {
     this.router.navigate(['/items/new']);
   }

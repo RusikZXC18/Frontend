@@ -46,10 +46,6 @@ export class ItemFormComponent {
       createdAt: new Date()
     };
 
-    this.dataService.addProject(newProject);
-    this.successMessage = '✅ Проєкт успішно додано!';
-    this.projectForm.reset();
-    this.submitted = false;
 
     setTimeout(() => this.router.navigate(['/items']), 1000);
   }

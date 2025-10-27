@@ -1,112 +1,45 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Project } from '../models/project.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private projects: Project[] = [
-    {
-      id: 1,
-      name: 'Сайт-портфоліо',
-      description: 'Персональний вебсайт для демонстрації проєктів і навичок.',
-      details: `Цей проєкт створений як сучасна онлайн-візитівка для розробника.
-    Він містить кілька основних розділів: "Про мене", "Мої роботи", "Контакти" та "Блог".
-    На сторінці портфоліо кожен проєкт представлений у вигляді інтерактивної картки з коротким описом, технологіями та посиланням на GitHub.
-    У розділі контактів реалізована форма зворотного зв’язку, що надсилає повідомлення через Firebase.
-    Інтерфейс оптимізовано для мобільних пристроїв, а всі зображення мають lazy-loading для швидшого завантаження.
-    Дизайн створений у мінімалістичному стилі з плавними анімаціями переходів.`,
-      technology: 'Angular, TypeScript, SCSS, Firebase Hosting',
-      author: 'Іван Іванов',
-      createdAt: new Date('2025-01-15')
-    },
-    {
-      id: 2,
-      name: 'Інтернет-магазин',
-      description: 'Веб-додаток для продажу товарів онлайн із системою кошика.',
-      details: `Це повноцінна e-commerce платформа, що дозволяє клієнтам переглядати товари, додавати їх у кошик і здійснювати покупки онлайн.
-    Користувачі можуть фільтрувати товари за категоріями, ціною чи рейтингом, переглядати деталі кожного продукту й залишати відгуки.
-    Адміністратор має окрему панель для управління товарами, замовленнями, клієнтами й аналітикою продажів.
-    Реалізовано безпечну інтеграцію з платіжною системою Stripe, а також REST API для взаємодії між frontend і backend.
-    Додаток адаптований під будь-які пристрої та має темну і світлу теми.`,
-      technology: 'React, Node.js, MongoDB, Express, Stripe API',
-      author: 'Марія Петренко',
-      createdAt: new Date('2025-03-10')
-    },
-    {
-      id: 3,
-      name: 'Навчальна платформа',
-      description: 'Онлайн-платформа для курсів і тестування студентів.',
-      details: `Проєкт є навчальною системою (LMS), розробленою для онлайн-освіти.
-    Платформа дозволяє викладачам створювати курси, додавати лекції, завдання та тести.
-    Студенти можуть переглядати матеріали, проходити тести та отримувати сертифікати після завершення курсу.
-    У системі передбачено три типи користувачів: "Адміністратор", "Викладач" та "Студент", кожен із власним набором прав доступу.
-    Також реалізовано форум для спілкування, сповіщення про нові завдання й систему рейтингу активності.
-    Додаток має адаптивний дизайн і підтримку нічного режиму.`,
-      technology: 'Vue.js, Firebase, TailwindCSS, Cloud Firestore',
-      author: 'Олександр Коваленко',
-      createdAt: new Date('2025-04-05')
-    },
-    {
-      id: 4,
-      name: 'Мобільний додаток “FitLife”',
-      description: 'Мобільний трекер активності з порадами для здоров’я.',
-      details: `“FitLife” — це зручний додаток для людей, які прагнуть вести активний спосіб життя.
-    Він відстежує кількість кроків, спалені калорії, якість сну та фізичні тренування.
-    Користувач може переглядати щоденну, тижневу та місячну статистику, встановлювати цілі та отримувати персоналізовані рекомендації.
-    Реалізовано синхронізацію з Google Fit і Firebase для зберігання даних.
-    Інтерфейс побудовано у стилі Material Design з плавними анімаціями переходів між екранами.
-    Додаток підтримує push-нагадування про тренування, режим офлайн-роботи та мотиваційні цитати.`,
-      technology: 'Ionic, Angular, Capacitor, Firebase Auth',
-      author: 'Катерина Шевченко',
-      createdAt: new Date('2025-06-01')
-    },
-    {
-      id: 5,
-      name: 'CRM-система для бізнесу',
-      description: 'CRM-додаток для управління клієнтами, угодами та проєктами.',
-      details: `CRM-система розроблена для малого та середнього бізнесу з метою спрощення управління клієнтськими відносинами.
-    У додатку реалізовано модулі для ведення бази клієнтів, управління угодами, контролю за виконанням проєктів і моніторингу фінансових показників.
-    Є панель керування із візуальними графіками продажів, нагадування про дедлайни, календар подій і розподіл завдань між співробітниками.
-    Підтримується інтеграція з Google Sheets API для експорту даних, а також з поштовими сервісами для автоматичної розсилки.
-    У системі реалізовано розмежування прав доступу — менеджери, аналітики та керівники бачать лише свої дані.
-    UI оформлено у сучасному корпоративному стилі з акцентами на зручність і швидкість роботи.`,
-      technology: 'Angular, NestJS, PostgreSQL, Chart.js',
-      author: 'Дмитро Андрущенко',
-      createdAt: new Date('2025-02-20')
-    }
-  ];
-
+  private baseUrl = 'http://localhost:3000';
   private projectsSubject = new BehaviorSubject<Project[]>([]);
   public projects$ = this.projectsSubject.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getItems(): Observable<Project[]> {
-    return of(this.projects).pipe(
-      tap(projects => this.projectsSubject.next([...projects]))
+    return this.http.get<Project[]>(`${this.baseUrl}/projects`).pipe(
+      tap(projects => this.projectsSubject.next([...projects])),
+      catchError(error => {
+        console.error('Помилка при отриманні проєктів:', error);
+        return throwError(() => new Error('Не вдалося завантажити проєкти'));
+      })
     );
   }
-  addProject(project: Project): void {
-    const current = this.projectsSubject.getValue();
-    this.projectsSubject.next([...current, project]);
+
+  getItemById(id: number): Observable<Project> {
+    return this.http.get<Project>(`${this.baseUrl}/projects/${id}`).pipe(
+      catchError(error => {
+        console.error('Помилка при отриманні проєкту за ID:', error);
+        return throwError(() => new Error('Не вдалося знайти проєкт'));
+      })
+    );
   }
 
   filterProjects(searchTerm: string): void {
     const query = searchTerm.trim().toLowerCase();
+    const current = this.projectsSubject.getValue();
     const filtered = query
-      ? this.projects.filter(p =>
-        p.name.toLowerCase().includes(query)
-      )
-      : this.projects;
+      ? current.filter(p => p.name.toLowerCase().includes(query))
+      : current;
 
     this.projectsSubject.next(filtered);
-  }
-
-  getItemById(id: number): Observable<Project | undefined> {
-    const found = this.projects.find(p => p.id === id);
-    return of(found);
   }
 }
