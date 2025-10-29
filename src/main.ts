@@ -10,4 +10,4 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideHttpClient(withInterceptors([errorInterceptor]))
   ]
-}).catch(err => console.error(err));
+}).catch(err => console.error('Помилка запуску додатку:', err));
