@@ -1,54 +1,52 @@
-h2 {
+.list-container {
   text-align: center;
-  color: #3b3b98;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.search-container input {
-  width: 300px;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
+.search-input {
+  padding: 8px 12px;
   border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s;
+  border: 1px solid #ccc;
+  width: 220px;
+  margin-bottom: 10px;
 }
 
-.search-container input:focus {
-  border-color: #6c5ce7;
-}
-
-.search-container button {
-  background-color: #6c5ce7;
-  color: white;
+.add-btn, .test-btn {
+  margin-left: 10px;
+  padding: 8px 14px;
   border: none;
-  padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #4b6cb7;
+  color: white;
+  transition: 0.3s;
 }
 
-.search-container button:hover {
-  background-color: #4834d4;
+.test-btn {
+  background-color: #3ca55c;
 }
 
-.list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  padding: 0 20px;
+.add-btn:hover, .test-btn:hover {
+  opacity: 0.8;
 }
 
-.empty {
-  text-align: center;
-  color: #666;
-  font-size: 1.1em;
-  margin-top: 30px;
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 12px;
+}
+
+.test-results {
+  margin-top: 25px;
+  text-align: left;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #f8f8f8;
+  border-radius: 6px;
 }

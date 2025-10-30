@@ -19,4 +19,14 @@ export class ItemCardComponent {
   onSelect(): void {
     this.select.emit(this.project);
   }
+  static testComponent(): void {
+    const mockProj = { id: 1, name: 'AngularProj', description: 'desc', technology: 'Angular', author: 'Me' };
+    const comp = new ItemCardComponent();
+    comp.project = mockProj as any;
+    comp.select.subscribe(p => {
+      if (p.name === 'AngularProj') console.log('✅ Компонент item-card працює');
+      else console.error('❌ item-card не емiтить дані');
+    });
+    comp.onSelect();
+  }
 }

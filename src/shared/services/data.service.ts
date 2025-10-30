@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Project } from '../models/project.model';
 import { HttpClient } from '@angular/common/http';
@@ -41,5 +41,30 @@ export class DataService {
       : current;
 
     this.projectsSubject.next(filtered);
+  }
+
+  testGetItems(): void {
+    console.log('▶ Тестування DataService...');
+
+    const mockProjects: Project[] = [
+      {
+        id: 1,
+        name: 'TestProj',
+        description: 'Mock',
+        details: 'Демо-проєкт для тесту DataService',
+        technology: 'Angular',
+        author: 'User',
+        createdAt: new Date()
+      }
+    ];
+
+    this.projectsSubject.next(mockProjects);
+    const current = this.projectsSubject.getValue();
+
+    if (current.length === 1 && current[0].name === 'TestProj') {
+      console.log('✅ getItems() працює правильно');
+    } else {
+      console.error('❌ Помилка в getItems()');
+    }
   }
 }

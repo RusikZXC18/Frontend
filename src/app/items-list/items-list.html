@@ -1,23 +1,29 @@
 <div class="list-container">
-  <div class="top-bar">
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      (input)="onSearchChange()"
-      placeholder="Пошук..."
-    />
-    <button (click)="navigateToAdd()">＋ Додати новий</button>
-  </div>
+  <h2>Список проєктів</h2>
 
-  <div *ngIf="projects$ | async as projects; else noData">
+  <input
+    type="text"
+    placeholder="Пошук проєкту..."
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+    class="search-input"
+  />
+
+  <button (click)="navigateToAdd()" class="add-btn">Додати новий</button>
+  <button (click)="runTests()" class="test-btn">▶ Запустити тести</button>
+
+  <div class="projects">
     <app-item-card
-      *ngFor="let project of projects"
+      *ngFor="let project of projects$ | async"
       [project]="project"
       (select)="onProjectSelected(project)"
     ></app-item-card>
   </div>
 
-  <ng-template #noData>
-    <p>Немає даних для відображення.</p>
-  </ng-template>
+  <div *ngIf="testResults.length > 0" class="test-results">
+    <h3>Результати тестів:</h3>
+    <ul>
+      <li *ngFor="let res of testResults">{{ res }}</li>
+    </ul>
+  </div>
 </div>
