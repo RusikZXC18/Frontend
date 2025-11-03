@@ -1,18 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ItemDetailsComponent } from './item-details';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { DataService } from '../../shared/services/data.service';
 
-import { ItemDetails } from './item-details';
-
-describe('ItemDetails', () => {
-  let component: ItemDetails;
-  let fixture: ComponentFixture<ItemDetails>;
+describe('ItemDetailsComponent', () => {
+  let component: ItemDetailsComponent;
+  let fixture: ComponentFixture<ItemDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ItemDetails]
-    })
-    .compileComponents();
+      imports: [ItemDetailsComponent],
+      providers: [
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: new Map([['id', '1']]) } } },
 
-    fixture = TestBed.createComponent(ItemDetails);
+        { provide: DataService, useValue: { getItemById: () => of({ id: 1, name: 'Test', description: 'Mock desc', technology: 'Angular', author: 'Dev', createdAt: new Date() }) } }
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ItemDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
